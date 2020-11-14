@@ -1,0 +1,455 @@
+# coding=utf-8
+import bcrypt
+import time
+import os
+import socket
+import sys
+import pickle
+
+print("=========================Inicio proceso de crackeo==========================")
+# -a 0: ataque con diccionario
+# -m 0: tipo de hash MD5 
+os.system('time -p hashcat -a 0 -m 0 -o cracked1.txt archivo_1 diccionario_2.dict')
+
+
+
+# -a 0: ataque con diccionario
+# -m 10: tipo de hash MD5 con salt : md5($pass.$salt)
+os.system('time -p hashcat -a 0 -m 10 -o cracked2.txt archivo_2 diccionario_2.dict')
+
+
+# -a 0: ataque con diccionario
+# -m 10: tipo de hash MD5 con salt : md5($pass.$salt)
+os.system('time -p hashcat -a 0 -m 10 -o cracked3.txt archivo_3 diccionario_2.dict')
+
+
+# -a 0: ataque con diccionario
+# -m 1000: tipo de hash NTLM
+os.system('time -p hashcat -a 0 -m 1000 -o cracked4.txt archivo_4 diccionario_2.dict')
+
+
+# -a 0: ataque con diccionario
+# -m 1800: tipo de hash sha512crypt $6$, SHA512 (Unix)
+os.system('time -p hashcat -a 0 -m 1800 -o cracked5.txt archivo_5 diccionario_2.dict')
+
+
+print("================Inicio de proceso de hasheo de bcrypt==========================")
+
+
+arreglo1=[]
+arreglo2=[]
+arreglo3=[]
+arreglo4=[]
+arreglo5=[]
+
+def cutit(s,n):    
+      return s[n:]
+
+while True:
+    print("===============================================================================")
+    print("Cual archivo desea hasher con bcrypt? ")
+    print("archivo 1 (1)")
+    print("archivo 2 (2)")
+    print("archivo 3 (3)")
+    print("archivo 4 (4)")
+    print("archivo 5 (5)")
+    print("exit(0)")
+    opcion = input()
+    
+    print(opcion)
+
+    if opcion == 1:
+
+        with open("cracked1.txt") as fname:
+            lineas = fname.readlines()
+            for linea in lineas:
+                arreglo1.append(cutit(linea.strip('\n'),33)) #borrar las primeras 33 lineas del arreglo contraseña y el '\n'
+
+        start = time.time()
+
+       
+
+        for i in range(1000):
+            archivo= open('bcryp1.txt', 'a') #crea un nuevo archivo donde se almacenaran las contraseñas hasheadas con bcrypt
+            #passwd = bytes(arreglo1[i], encoding = "utf-8")
+            passwd=arreglo1[i].encode("utf-8") #transforma las contraseñas de formato string a bytes
+            salt = bcrypt.gensalt(rounds=16) #genera el salt
+            hashed = bcrypt.hashpw(passwd, salt) #genera el hash
+            hashed = hashed.decode(encoding="utf-8") # trandorma las contraseñas de formato bytes a string
+            archivo.write(hashed) #escribe en el arechivo el hash
+            archivo.write('\n')
+            archivo.close()
+
+
+        end = time.time()
+        print('el tiempo que tardo en hacer la operacion fue de : ',end - start,' segundos' )
+
+    elif opcion == 0:
+        break
+
+    elif opcion == 2:
+
+        with open("cracked2.txt") as fname:
+            lineas = fname.readlines()
+            for linea in lineas:
+                arreglo2.append(cutit(linea.strip('\n'),50)) #borrar las primeras 50 lineas del arreglo contraseña y el '\n'
+
+        start = time.time()
+
+       
+
+        for i in range(1000):
+            archivo= open('bcryp2.txt', 'a') #crea un nuevo archivo donde se almacenaran las contraseñas hasheadas con bcrypt
+            #passwd = bytes(arreglo2[i], encoding = "utf-8") #transforma las contraseñas de formato string a bytes
+            passwd=arreglo2[i].encode("utf-8") #transforma las contraseñas de formato string a bytes
+            salt = bcrypt.gensalt(rounds=16) #genera el salt
+            hashed = bcrypt.hashpw(passwd, salt) #genera el hash
+            hashed = hashed.decode(encoding="utf-8") # trandorma las contraseñas de formato bytes a string
+            archivo.write(hashed) #escribe en el arechivo el hash
+            archivo.write('\n')
+            archivo.close()
+
+
+        end = time.time()
+        print('el tiempo que tardo en hacer la operacion fue de : ',end - start,' segundos' )
+
+    elif opcion == 3:
+        with open("cracked3.txt") as fname:
+            lineas = fname.readlines()
+            for linea in lineas:
+                arreglo3.append(cutit(linea.strip('\n'),50)) #borrar las primeras 50 lineas del arreglo contraseña y el '\n'
+
+        start = time.time()
+
+       
+
+        for i in range(1000):
+            archivo= open('bcryp3.txt', 'a') #crea un nuevo archivo donde se almacenaran las contraseñas hasheadas con bcrypt
+            #passwd = bytes(arreglo3[i], encoding = "utf-8") #transforma las contraseñas de formato string a bytes
+            passwd=arreglo3[i].encode("utf-8") #transforma las contraseñas de formato string a bytes
+            salt = bcrypt.gensalt(rounds=16) #genera el salt
+            hashed = bcrypt.hashpw(passwd, salt) #genera el hash
+            hashed = hashed.decode(encoding="utf-8") # trandorma las contraseñas de formato bytes a string
+            archivo.write(hashed) #escribe en el arechivo el hash
+            archivo.write('\n')
+            archivo.close()
+
+
+        end = time.time()
+        print('el tiempo que tardo en hacer la operacion fue de : ',end - start,' segundos' )        
+
+
+
+
+
+
+    elif opcion == 4:
+
+        with open("cracked4.txt") as fname:
+            lineas = fname.readlines()
+            for linea in lineas:
+                arreglo4.append(cutit(linea.strip('\n'),33)) #borrar las primeras 33 lineas del arreglo contraseña y el '\n'
+
+        start = time.time()
+
+       
+
+        for i in range(1000):
+            archivo= open('bcryp4.txt', 'a') #crea un nuevo archivo donde se almacenaran las contraseñas hasheadas con bcrypt
+            #passwd = bytes(arreglo4[i], encoding = "utf-8") #transforma las contraseñas de formato string a bytes
+            passwd=arreglo4[i].encode("utf-8")
+            salt = bcrypt.gensalt(rounds=16) #genera el salt
+            hashed = bcrypt.hashpw(passwd, salt) #genera el hash
+            hashed = hashed.decode(encoding="utf-8") # trandorma las contraseñas de formato bytes a string
+            archivo.write(hashed) #escribe en el arechivo el hash
+            archivo.write('\n')
+            archivo.close()
+
+
+        end = time.time()
+        print('el tiempo que tardo en hacer la operacion fue de : ',end - start,' segundos' )
+
+
+
+    elif opcion == 5:
+
+        with open("cracked5.txt") as fname:
+            lineas = fname.readlines()
+            x=0
+            for linea in lineas:
+                
+                if x == 0:
+                    arreglo5.append(cutit(linea.strip('\n'),104)) #borrar las primeras 104 lineas del arreglo contraseña y el '\n'
+                elif x == 1:
+                    arreglo5.append(cutit(linea.strip('\n'),100)) #borrar las primeras 100 lineas del arreglo contraseña y el '\n'
+                
+                elif x == 2:
+                    arreglo5.append(cutit(linea.strip('\n'),107)) #borrar las primeras 117 lineas del arreglo contraseña y el '\n'
+
+                elif x == 3:
+                    arreglo5.append(cutit(linea.strip('\n'),101)) #borrar las primeras 101 lineas del arreglo contraseña y el '\n'
+
+                elif x == 4:
+                    arreglo5.append(cutit(linea.strip('\n'),104))
+        
+                elif x == 5:
+                    arreglo5.append(cutit(linea.strip('\n'),102))
+
+                elif x == 6:
+                    arreglo5.append(cutit(linea.strip('\n'),106))
+
+                elif x == 7:
+                    arreglo5.append(cutit(linea.strip('\n'),100))               
+                elif x == 8:
+                    arreglo5.append(cutit(linea.strip('\n'),99))               
+                elif x == 9:
+                    arreglo5.append(cutit(linea.strip('\n'),103))
+                elif x == 10:
+                    arreglo5.append(cutit(linea.strip('\n'),101))
+                elif x == 11:
+                    arreglo5.append(cutit(linea.strip('\n'),99))
+                elif x == 12:
+                    arreglo5.append(cutit(linea.strip('\n'),104))
+                elif x == 13:
+                    arreglo5.append(cutit(linea.strip('\n'),104))
+                elif x == 14:
+                    arreglo5.append(cutit(linea.strip('\n'),106))
+                elif x == 15:
+                    arreglo5.append(cutit(linea.strip('\n'),100))
+                elif x == 16:
+                    arreglo5.append(cutit(linea.strip('\n'),107))
+                elif x == 17:
+                    arreglo5.append(cutit(linea.strip('\n'),100))
+                elif x == 18:
+                    arreglo5.append(cutit(linea.strip('\n'),100))
+                elif x == 19:
+                    arreglo5.append(cutit(linea.strip('\n'),104))
+                x=x+1
+
+        start = time.time()
+
+       
+
+        for i in range(20):
+            archivo= open('bcryp5.txt', 'a') #crea un nuevo archivo donde se almacenaran las contraseñas hasheadas con bcrypt
+            #passwd = bytes(arreglo5[i], encoding = "utf-8") #transforma las contraseñas de formato string a bytes
+            passwd=arreglo5[i].encode("utf-8") #transforma las contraseñas de formato string a bytes
+            salt = bcrypt.gensalt(rounds=16) #genera el salt
+            hashed = bcrypt.hashpw(passwd, salt) #genera el hash
+            hashed = hashed.decode(encoding="utf-8") # trandorma las contraseñas de formato bytes a string
+            archivo.write(hashed) #escribe en el arechivo el hash
+            archivo.write('\n')
+            archivo.close()
+
+
+        end = time.time()
+        print('el tiempo que tardo en hacer la operacion fue de : ',end - start,' segundos' )
+
+
+
+print("====================INICIA PROCESO DE CONEXION AL SERVIDOR POR MEDIO DE SOCKET ========================")
+while True:
+    print("===============================================================================")
+    print("Cual archivo desea encriptar con McEliece? ")
+    print("archivo 1 (1)")
+    print("archivo 2 (2)")
+    print("archivo 3 (3)")
+    print("archivo 4 (4)")
+    print("archivo 5 (5)")
+    print("exit(0)")
+    opcion = input()
+
+    if opcion == 1:
+        # Create a TCP/IP socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Connect the socket to the port where the server is listening
+        server_address = ('localhost', 10000)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)
+
+
+        # Send data
+        message = b'cliente: necesito la llave publica para el archivo 1'
+        print('sending {!r}'.format(message))
+        sock.sendall(message)
+
+        data = b""
+        # Look for the response
+
+        packet = sock.recv(8000)
+
+        data += packet
+
+        tPub = pickle.loads(data)
+        print("llave: ")
+        print(tPub)
+        print("Encrypting...")
+        tPub.encryptFile("bcryp1.txt")
+        sock.close()
+
+    elif opcion == 2:
+        # Create a TCP/IP socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Connect the socket to the port where the server is listening
+        server_address = ('localhost', 10000)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)
+
+
+        # Send data
+        message = b'cliente: necesito la llave publica para el archivo 2'
+        print('sending {!r}'.format(message))
+        sock.sendall(message)
+
+        data = b""
+        # Look for the response
+
+        packet = sock.recv(8000)
+
+        data += packet
+
+        tPub = pickle.loads(data)
+        print("llave: ")
+        print(tPub)
+        print("Encrypting...")
+        tPub.encryptFile("bcryp2.txt")
+        sock.close()
+
+    elif opcion == 3:
+        # Create a TCP/IP socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Connect the socket to the port where the server is listening
+        server_address = ('localhost', 10000)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)
+
+
+        # Send data
+        message = b'cliente: necesito la llave publica para el archivo 3'
+        print('sending {!r}'.format(message))
+        sock.sendall(message)
+
+        data = b""
+        # Look for the response
+
+        packet = sock.recv(8000)
+
+        data += packet
+
+        tPub = pickle.loads(data)
+        print("llave: ")
+        print(tPub)
+        print("Encrypting...")
+        tPub.encryptFile("bcryp3.txt")
+        sock.close()
+    
+    elif opcion == 4:
+        # Create a TCP/IP socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Connect the socket to the port where the server is listening
+        server_address = ('localhost', 10000)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)
+
+
+        # Send data
+        message = b'cliente: necesito la llave publica para el archivo 4'
+        print('sending {!r}'.format(message))
+        sock.sendall(message)
+
+        data = b""
+        # Look for the response
+
+        packet = sock.recv(8000)
+
+        data += packet
+        tPub = pickle.loads(data)
+        print("llave: ")
+        print(tPub)
+        print("Encrypting...")
+        tPub.encryptFile("bcryp4.txt")
+        sock.close()
+
+    elif opcion == 5:
+        # Create a TCP/IP socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Connect the socket to the port where the server is listening
+        server_address = ('localhost', 10000)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)
+
+
+        # Send data
+        message = b'cliente: necesito la llave publica para el archivo 5'
+        print('sending {!r}'.format(message))
+        sock.sendall(message)
+
+        data = b""
+        # Look for the response
+        
+        packet = sock.recv(8000)
+
+        data += packet
+        tPub = pickle.loads(data)
+        print("llave: ")
+        print(tPub)
+        print("Encrypting...")
+        tPub.encryptFile("bcryp5.txt")
+        sock.close()
+
+    elif opcion == 0:
+        # Create a TCP/IP socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Connect the socket to the port where the server is listening
+        server_address = ('localhost', 10000)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)
+
+        # Send data
+        message = b'cliente desconectado...'
+        print('sending {!r}'.format(message))
+        sock.sendall(message)
+        sock.close()
+        break
+        
+    
+print("=================== INICIA PROCESO DE ENVIO CIFRADOS======================")
+while True:
+    print("===============================================================================")
+    print("Cual archivo cifrado desea enviar ? ")
+    print("archivo 1 (1)")
+    print("archivo 2 (2)")
+    print("archivo 3 (3)")
+    print("archivo 4 (4)")
+    print("archivo 5 (5)")
+    print("exit(0)")
+    opcion = input()
+
+    if opcion == 1:     
+        CHUNK_SIZE = 10 * 1024
+        FILE = "bcryp1.txt.ctxt"
+
+        # Create a TCP/IP socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Connect the socket to the port where the server is listening
+        server_address = ('', 50007)
+        print('connecting to {} port {}'.format(*server_address))
+        sock.connect(server_address)        
+        
+        f= open(FILE, 'rb')
+        data = f.read(CHUNK_SIZE)
+        while data:
+            sock.sendall(data)
+            data = f.read(CHUNK_SIZE)
+    elif opcion == 0:
+        break
+
+
+
