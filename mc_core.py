@@ -165,11 +165,11 @@ class privateKeyH84:
 
 	def decryptFile(self,f):
 		"""Will decrypt whole file"""
-		cf = open(f,"rb")
+		cf = open(f,"r")
 		cb1 = cf.read(1)
 		cb2 = cf.read(1)
 		
-		mf = open(f+".decoded","wb") 
+		mf = open(f+".decoded","w") 
 		
 		while cb1 and cb2:
 			#First Byte of Cipher Text
@@ -270,10 +270,10 @@ class publicKeyH84:
 	def encryptFile(self,f):
 		"""Encrypts a whole file"""
 
-		mf = open(f,"rb")
+		mf = open(f,"r")
 		m = mf.read(1)
 		
-		cf = open(f+".ctxt","wb") # era bw
+		cf = open(f+".ctxt","w") # era bw
 		
 		while m:
 			#First half byte of message text
